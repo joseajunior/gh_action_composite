@@ -30,6 +30,7 @@ def post_comment(url: str, token: str, file: Path, sha: str):
     payload = {'body': content, 'commit_id': sha}
 
     response = requests.post(url, headers=headers, json=payload)
+    print(response.text)
     response.raise_for_status()
 
     
