@@ -1,7 +1,7 @@
 import os, requests, markdown
 from pathlib import Path
 
-DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/pulls/{PULL_NUMBER}/comments"
+DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/pulls/{PULL_NUMBER}/reviews"
 
 def main():
     from argparse import ArgumentParser
@@ -28,7 +28,7 @@ def post_comment(url: str, token: str, file: Path, sha: str):
                'Accept': 'application/vnd.github+json',
                'X-GitHub-Api-Version': '2022-11-28'}
     payload = {'body': content, 'commit_id': sha}
-    
+
     response = requests.post(url, headers=headers, json=payload)
     response.raise_for_status()
 
