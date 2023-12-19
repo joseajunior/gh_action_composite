@@ -4,10 +4,9 @@ from robot.model.statistics import Statistics
 from robot.result import TestCase, Result
 
 class MyResultsVisitor(ResultVisitor):
-    def __init__(self, markdown_file: str='report.md', only_failed: bool=False):
+    def __init__(self, markdown_file: str='report.md'):
         self.tests: dict = dict()
         self.markdown_file: str = markdown_file
-        self.only_failed: bool = only_failed
 
     def visit_test(self, test: TestCase):
         if test.status == 'FAIL':
@@ -36,8 +35,6 @@ class MyResultsVisitor(ResultVisitor):
     def _format_tests_table(self, tests: dict[str, dict[str, str]]):
         tests_table = ["## Test Status", "|Test|Status|Message|", "|---|:---:|---|"]
         for name, info in tests.items():
-            if self.only_failed and info.get('status') != 'FAIL':
-                continue
             tests_table.append(f"|{name}|{info.get('status')}|{info.get('message', '')}|")
 
         return "\n".join(tests_table)
@@ -47,7 +44,6 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('-r', '--report', help='The XML file', required=True, type=str)
     parser.add_argument('-o', '--output', help='The Markdown result file', required=False, default='report.md', type=str)
-    parser.add_argument('--only-failed', help='Only show failed tests', required=False, default=False, type=bool)
     args = parser.parse_args()
 
     output_file = os.path.join(args.report, 'output.xml')
