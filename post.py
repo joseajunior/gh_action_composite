@@ -7,7 +7,7 @@ def main():
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('-gt', '--github-token', help='The GitHub token', required=False, default=os.environ['GITHUB_TOKEN'], type=str)
-    parser.add_argument('-n', '--number', help='The pull request number', required=False, default=os.environ['PULL_REQUEST_NUMBER'], type=int)
+    parser.add_argument('-n', '--number', help='The pull request number', required=False, default=os.environ['PULL_REQUEST_NUMBER'], type=str)
     parser.add_argument('-f', '--file', help='The Markdown file', required=False, default='report.md', type=Path)
     parser.add_argument('--sha', help='The commit SHA', required=False, default=os.environ['SHA'], type=str)
     parser.add_argument('--webhook-url', help='The webhook URL', required=False, default=os.environ['WEBHOOK_URL'], type=str)
