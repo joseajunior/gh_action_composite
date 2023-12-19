@@ -1,7 +1,7 @@
 import os, requests, markdown
 from pathlib import Path
 
-DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/pulls/{PULL_NUMBER}/reviews"
+DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/pulls/{PULL_NUMBER}/comments"
 
 def main():
     from argparse import ArgumentParser
