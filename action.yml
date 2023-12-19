@@ -23,7 +23,7 @@ inputs:
   only_failed_tests:
     description: 'If true only failed tests are shown'
     required: false
-    default: true
+    default: false
   webhook_url:
     description: 'Webhook URL to send the report to'
     required: false
