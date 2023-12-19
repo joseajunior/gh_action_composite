@@ -1,0 +1,65 @@
+name: 'Robot Reporter'
+description: 'Parses robot framework test reports and outputs the results in commit that triggered the tests'
+inputs:
+  gh_access_token:
+    description: 'Token to access the API'
+    required: true
+  report_path:
+    description: 'Path to report'
+    required: true
+    default: 'reports'
+  sha:
+    description: 'SHA of the commit tha triggered the tests'
+    required: false
+    default: "${{ github.sha }}"
+  pull_request_id:
+    description: 'ID of the Pull Request'
+    required: false
+    default: "${{ github.event.number }}"
+  summary:
+    description: 'Add report to job summary'
+    required: false
+    default: true
+  only_summary:
+    description: 'Only output report to job summary'
+    required: false
+    default: false
+  only_failed_tests:
+    description: 'If true only failed tests are shown'
+    required: false
+    default: true
+  webhook_url:
+    description: 'Webhook URL to send the report to'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      run: |
+            export OWNER="$(echo "${{ github.repository }}" | awk -F / '{print $1}' | sed -e "s/:refs//")"
+            export REPO="$(echo "${{ github.repository }}" | awk -F / '{print $2}' | sed -e "s/:refs//")"
+            echo "REPOSITORY_OWNER=$OWNER" >> $GITHUB_ENV
+            echo "REPOSITORY_NAME=$REPO" >> $GITHUB_ENV
+            pip install -U pip
+            pip install -r requirements.txt
+
+    - shell: bash
+      run: |
+        python report.py -r ${{ inputs.report_path }} --only-failed ${{ inputs.only_failed_tests }}
+
+    - shell: bash
+      if: ${{ inputs.summary == false }}
+      run: |
+        echo report.md >> $GITHUB_STEP_SUMMARY
+    
+    - shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.gh_access_token }}
+        PULL_REQUEST_NUMBER: ${{ inputs.pull_request_id }}
+        WEBHOOK_URL: ${{ inputs.webhook_url }}
+        SHA: ${{ inputs.sha }}
+
+      run: |
+        python post.py
