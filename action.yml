@@ -11,7 +11,7 @@ inputs:
   sha:
     description: 'SHA of the commit tha triggered the tests'
     required: false
-    default: "${{ github.sha }}"
+    default: ""
   pull_request_id:
     description: 'ID of the Pull Request'
     required: false
