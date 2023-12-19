@@ -27,7 +27,7 @@ def post_comment(url: str, token: str, file: Path, sha: str):
     headers = {'Authorization': f'token {token}',
                'Accept': 'application/vnd.github+json',
                'X-GitHub-Api-Version': '2022-11-28'}
-    payload = {'body': content, 'commit_id': sha}
+    payload = {'body': content, 'commit_id': sha, 'event': 'COMMENT'}
 
     response = requests.post(url, headers=headers, json=payload)
     print(response.text)
