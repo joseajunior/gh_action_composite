@@ -16,10 +16,6 @@ inputs:
     description: 'ID of the Pull Request'
     required: false
     default: ""
-  summary:
-    description: 'Add report to job summary'
-    required: false
-    default: true
   only_summary:
     description: 'Only output report to job summary'
     required: false
@@ -50,11 +46,11 @@ runs:
         python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }} --only-failed ${{ inputs.only_failed_tests }}
 
     - shell: bash
-      if: ${{ inputs.summary == true }}
       run: |
         echo report.md >> $GITHUB_STEP_SUMMARY
     
     - shell: bash
+      if: ${{ inputs.only_summary == false }}
       env:
         GITHUB_TOKEN: ${{ inputs.gh_access_token }}
         PULL_REQUEST_NUMBER: ${{ inputs.pull_request_id }}
