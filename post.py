@@ -9,8 +9,8 @@ def main():
     parser.add_argument('-gt', '--github-token', help='The GitHub token', required=False, default=os.environ['GITHUB_TOKEN'], type=str)
     parser.add_argument('-pr', '--number', help='The pull request number', required=False, default=os.environ['PULL_REQUEST_NUMBER'], type=str)
     parser.add_argument('-f', '--file', help='The Markdown file', required=False, default='report.md', type=Path)
-    parser.add_argument('-sha', help='The commit SHA', required=False, default=os.environ['SHA'], type=str)
-    parser.add_argument('-wu','--webhook-url', help='The webhook URL', required=False, default=os.environ['WEBHOOK_URL'], type=str)
+    parser.add_argument('--sha', help='The commit SHA', required=False, default=os.environ['SHA'], type=str)
+    parser.add_argument('--webhook-url', help='The webhook URL', required=False, default=os.environ['WEBHOOK_URL'], type=str)
     args = parser.parse_args()
 
     if args.number:
