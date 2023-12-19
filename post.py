@@ -13,9 +13,8 @@ def main():
     parser.add_argument('--webhook-url', help='The webhook URL', required=False, default=os.environ['WEBHOOK_URL'], type=str)
     args = parser.parse_args()
 
-    url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], PULL_NUMBER=args.number)
-
-    if args.sha:
+    if args.number:
+        url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], PULL_NUMBER=args.number)
         post_comment(url, args.github_token, args.file, args.sha)
 
     if args.webhook_url:

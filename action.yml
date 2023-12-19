@@ -50,7 +50,6 @@ runs:
         cat report.md >> $GITHUB_STEP_SUMMARY
     
     - shell: bash
-      if: ${{ inputs.only_summary == false }}
       env:
         GITHUB_TOKEN: ${{ inputs.gh_access_token }}
         PULL_REQUEST_NUMBER: ${{ inputs.pull_request_id }}
