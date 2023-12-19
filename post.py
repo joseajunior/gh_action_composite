@@ -1,4 +1,4 @@
-import os, requests, markdown
+import os, requests
 from pathlib import Path
 
 DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/commits/{COMMIT_SHA}/comments"
@@ -45,8 +45,6 @@ def post_webhook(url: str, file: Path):
 
     with open(file, 'r') as f:
         content = f.read()
-
-    content = markdown.markdown(content, extensions=['tables', 'fenced_code'])
 
     data_raw = {
         "cardsV2": [
