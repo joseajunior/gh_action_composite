@@ -43,7 +43,7 @@ runs:
             echo "REPOSITORY_OWNER=$OWNER" >> $GITHUB_ENV
             echo "REPOSITORY_NAME=$REPO" >> $GITHUB_ENV
             pip install -U pip
-            pip install -r requirements.txt
+            pip install robotframework requests markdown
 
     - shell: bash
       run: |
