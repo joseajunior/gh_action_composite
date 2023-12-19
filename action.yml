@@ -39,7 +39,7 @@ runs:
 
     - shell: bash
       run: |
-        python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }} --only-failed ${{ inputs.only_failed_tests }}
+        python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }}
 
     - shell: bash
       run: |
