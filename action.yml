@@ -54,4 +54,4 @@ runs:
         SHA: ${{ inputs.sha }}
 
       run: |
-        python ${{ github.action_path }}/post.py
+        python ${{ github.action_path }}/post.py -gt ${{ env.GITHUB_TOKEN }} -pr ${{ env.PULL_REQUEST_NUMBER }} -wu ${{ env.WEBHOOK_URL }} -sha ${{ env.SHA }}
