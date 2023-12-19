@@ -50,8 +50,8 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.gh_access_token }}
         PULL_REQUEST_NUMBER: ${{ inputs.pull_request_id }}
-        WEBHOOK_URL: ${{ inputs.webhook_url }}
-        SHA: ${{ inputs.sha }}
+        WEBHOOK_URL: ${{ inputs.webhook_url || '' }}
+        SHA: ${{ inputs.sha || ''}}
 
       run: |
         python ${{ github.action_path }}/post.py -gt ${{ env.GITHUB_TOKEN }} --webhook-url ${{ env.WEBHOOK_URL }}
