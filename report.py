@@ -48,9 +48,8 @@ def main():
 
     output_file = os.path.join(args.report, 'output.xml')
     markdown_file = args.output
-    only_failed = args.only_failed
     result = ExecutionResult(output_file)
-    result.visit(MyResultsVisitor(markdown_file, only_failed))
+    result.visit(MyResultsVisitor(markdown_file))
 
 if __name__ == '__main__':
     main()
