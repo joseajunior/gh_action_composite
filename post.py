@@ -1,33 +1,32 @@
 import os, requests, markdown
 from pathlib import Path
 
-DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/pulls/{PULL_NUMBER}/comments"
+DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/commits/{COMMIT_SHA}/comments"
 
 def main():
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('-gt', '--github-token', help='The GitHub token', required=False, default=os.environ['GITHUB_TOKEN'], type=str)
-    parser.add_argument('-pr', '--number', help='The pull request number', required=False, default=os.environ['PULL_REQUEST_NUMBER'], type=str)
     parser.add_argument('-f', '--file', help='The Markdown file', required=False, default='report.md', type=Path)
     parser.add_argument('--sha', help='The commit SHA', required=False, default=os.environ['SHA'], type=str)
     parser.add_argument('--webhook-url', help='The webhook URL', required=False, default=os.environ['WEBHOOK_URL'], type=str)
     args = parser.parse_args()
 
-    if args.number:
-        url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], PULL_NUMBER=args.number)
+    if args.sha:
+        url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], COMMIT_SHA=args.sha)
         post_comment(url, args.github_token, args.file, args.sha)
 
     if args.webhook_url:
         post_webhook(args.webhook_url, args.file)
 
-def post_comment(url: str, token: str, file: Path, sha: str):
+def post_comment(url: str, token: str, file: Path):
     with open(file, 'r') as f:
         content = f.read()
 
     headers = {'Authorization': f'token {token}',
                'Accept': 'application/vnd.github+json',
                'X-GitHub-Api-Version': '2022-11-28'}
-    payload = {'body': content, 'commit_id': sha, 'event': 'COMMENT'}
+    payload = {'body': content}
 
     response = requests.post(url, headers=headers, json=payload)
     print(response.text)
