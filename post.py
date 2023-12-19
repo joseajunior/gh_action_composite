@@ -14,7 +14,7 @@ def main():
 
     if args.sha:
         url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], COMMIT_SHA=args.sha)
-        post_comment(url, args.github_token, args.file, args.sha)
+        post_comment(url, args.github_token, args.file)
 
     if args.webhook_url:
         post_webhook(args.webhook_url, args.file)
