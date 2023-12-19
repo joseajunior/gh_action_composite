@@ -12,12 +12,18 @@ def main():
     parser.add_argument('--webhook-url', help='The webhook URL', required=False, default=os.environ['WEBHOOK_URL'], type=str)
     args = parser.parse_args()
 
-    if args.sha:
-        url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], COMMIT_SHA=args.sha)
-        post_comment(url, args.github_token, args.file)
+    try:
+        if args.sha:
+            url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], COMMIT_SHA=args.sha)
+            post_comment(url, args.github_token, args.file)
+    except:
+        pass
 
-    if args.webhook_url:
-        post_webhook(args.webhook_url, args.file)
+    try:
+        if args.webhook_url:
+            post_webhook(args.webhook_url, args.file)
+    except:
+        pass
 
 def post_comment(url: str, token: str, file: Path):
     with open(file, 'r') as f:
@@ -29,6 +35,7 @@ def post_comment(url: str, token: str, file: Path):
     payload = {'body': content}
 
     response = requests.post(url, headers=headers, json=payload)
+    print(response.status_code)
     print(response.text)
     response.raise_for_status()
 
@@ -84,6 +91,8 @@ def post_webhook(url: str, file: Path):
     }
 
     response = requests.post(url, headers=MESSAGE_HEADERS, json=data_raw)
+    print(response.status_code)
+    print(response.text)
     response.raise_for_status()
 
 if __name__ == '__main__':
