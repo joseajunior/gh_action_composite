@@ -6,10 +6,10 @@ DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/commits/{COMMIT_SHA}/
 def main():
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('-gt', '--github-token', help='The GitHub token', required=False, default=os.environ['GITHUB_TOKEN'], type=str)
+    parser.add_argument('-gt', '--github-token', help='The GitHub token', required=False, default='', type=str)
     parser.add_argument('-f', '--file', help='The Markdown file', required=False, default='report.md', type=Path)
-    parser.add_argument('--sha', help='The commit SHA', required=False, default=os.environ['SHA'], type=str)
-    parser.add_argument('--webhook-url', help='The webhook URL', required=False, default=os.environ['WEBHOOK_URL'], type=str)
+    parser.add_argument('--sha', help='The commit SHA', required=False, default='', type=str)
+    parser.add_argument('--webhook-url', help='The webhook URL', required=False, default='', type=str)
     args = parser.parse_args()
 
     try:
@@ -68,20 +68,6 @@ def post_webhook(url: str, file: Path):
                                         "text": f"""{content}"""
                                     }
                                 },
-                                # {
-                                #     "buttons": [
-                                #         {
-                                #             "textButton": {
-                                #                 "text": "View Report",
-                                #                 "onClick": {
-                                #                     "openLink": {
-                                #                         "url": ""
-                                #                     }
-                                #                 }
-                                #             }
-                                #         }
-                                #     ]
-                                # }
                             ]
                         }
                     ]

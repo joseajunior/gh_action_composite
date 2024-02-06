@@ -1,41 +1,49 @@
 name: 'Robot Reporter'
 description: 'Parses robot framework test reports and outputs the results in commit that triggered the tests'
+author: 'joseajunior'
 inputs:
-  gh_access_token:
-    description: 'Token to access the API'
-    required: true
   report_path:
-    description: 'Path to report'
-    required: true
-    default: 'reports'
-  sha:
-    description: 'SHA of the commit tha triggered the tests'
+    description: |
+      Path to the report files.
+      The default value is "reports"
     required: false
-    default: "${{ github.sha }}"
-  pull_request_id:
-    description: 'ID of the Pull Request'
+    default: "reports"
+  gh_access_token:
+    description: |
+      Token to access the GitHub API.
+      This is only needed if you want to post the report to the commit that triggered the tests.
+    required: false
+    default: ""
+  sha:
+    description: |
+      SHA of the commit to post the report to.
+      This is only needed if you want to post the report to the commit that triggered the tests.
+    required: false
+    default: ""
+  webhook_url:
+    description: |
+      Google Chat webhook URL.
+      This is only needed if you want to post the report to a Google Chat room.
     required: false
     default: ""
   only_summary:
-    description: 'Only output report to job summary'
+    description: |
+      Only output report to GitHub Actions Summary.
+      Default is false.
     required: false
     default: false
-  webhook_url:
-    description: 'Webhook URL to send the report to'
-    required: false
-    default: ''
 
 runs:
   using: 'composite'
   steps:
     - shell: bash
       run: |
-            export OWNER="$(echo "${{ github.repository }}" | awk -F / '{print $1}' | sed -e "s/:refs//")"
-            export REPO="$(echo "${{ github.repository }}" | awk -F / '{print $2}' | sed -e "s/:refs//")"
-            echo "REPOSITORY_OWNER=$OWNER" >> $GITHUB_ENV
-            echo "REPOSITORY_NAME=$REPO" >> $GITHUB_ENV
-            pip install -U pip
-            pip install robotframework requests markdown
+        export OWNER="$(echo "${{ github.repository }}" | awk -F / '{print $1}' | sed -e "s/:refs//")"
+        export REPO="$(echo "${{ github.repository }}" | awk -F / '{print $2}' | sed -e "s/:refs//")"
+        echo "REPOSITORY_OWNER=$OWNER" >> $GITHUB_ENV
+        echo "REPOSITORY_NAME=$REPO" >> $GITHUB_ENV
+        pip install -U pip
+        pip install robotframework requests
 
     - shell: bash
       run: |
@@ -44,14 +52,13 @@ runs:
     - shell: bash
       run: |
         cat report.md >> $GITHUB_STEP_SUMMARY
-        cat report.md
     
     - shell: bash
+      if: ${{ !inputs.only_summary && ((inputs.sha && inputs.gh_access_token) || inputs.webhook_url) }}
       env:
         GITHUB_TOKEN: ${{ inputs.gh_access_token }}
-        PULL_REQUEST_NUMBER: ${{ inputs.pull_request_id }}
         WEBHOOK_URL: ${{ inputs.webhook_url || '' }}
         SHA: ${{ inputs.sha || ''}}
 
       run: |
-        python ${{ github.action_path }}/post.py -gt ${{ env.GITHUB_TOKEN }} --webhook-url ${{ env.WEBHOOK_URL }}
+        python ${{ github.action_path }}/post.py -gt ${{ env.GITHUB_TOKEN }} --webhook-url ${{ env.WEBHOOK_URL }} --sha ${{ env.SHA }}
