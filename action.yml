@@ -13,19 +13,19 @@ inputs:
       Token to access the GitHub API.
       This is only needed if you want to post the report to the commit that triggered the tests.
     required: false
-    default: ""
+    default: "none"
   sha:
     description: |
       SHA of the commit to post the report to.
       This is only needed if you want to post the report to the commit that triggered the tests.
     required: false
-    default: ""
+    default: "none"
   webhook_url:
     description: |
       Google Chat webhook URL.
       This is only needed if you want to post the report to a Google Chat room.
     required: false
-    default: ""
+    default: "none"
   only_summary:
     description: |
       Only output report to GitHub Actions Summary.
@@ -61,4 +61,4 @@ runs:
         SHA: ${{ inputs.sha || 'none'}}
 
       run: |
-        python ${{ github.action_path }}/post.py -gt ${{ env.GITHUB_TOKEN }} --webhook-url ${{ env.WEBHOOK_URL }} --sha ${{ env.SHA }}
+        python ${{ github.action_path }}/post.py
