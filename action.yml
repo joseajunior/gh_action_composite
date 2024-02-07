@@ -56,9 +56,9 @@ runs:
     - shell: bash
       if: ${{ !inputs.only_summary && ((inputs.sha && inputs.gh_access_token) || inputs.webhook_url) }}
       env:
-        GITHUB_TOKEN: ${{ inputs.gh_access_token }}
-        WEBHOOK_URL: ${{ inputs.webhook_url || '' }}
-        SHA: ${{ inputs.sha || ''}}
+        GITHUB_TOKEN: ${{ inputs.gh_access_token || 'none' }}
+        WEBHOOK_URL: ${{ inputs.webhook_url || 'none' }}
+        SHA: ${{ inputs.sha || 'none'}}
 
       run: |
         python ${{ github.action_path }}/post.py -gt ${{ env.GITHUB_TOKEN }} --webhook-url ${{ env.WEBHOOK_URL }} --sha ${{ env.SHA }}

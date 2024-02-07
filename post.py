@@ -6,21 +6,21 @@ DEFAULT_URL = "https://api.github.com/repos/{OWNER}/{REPO}/commits/{COMMIT_SHA}/
 def main():
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('-gt', '--github-token', help='The GitHub token', required=False, default='', type=str)
+    parser.add_argument('-gt', '--github-token', help='The GitHub token', required=False, default='none', type=str)
     parser.add_argument('-f', '--file', help='The Markdown file', required=False, default='report.md', type=Path)
-    parser.add_argument('--sha', help='The commit SHA', required=False, default='', type=str)
-    parser.add_argument('--webhook-url', help='The webhook URL', required=False, default='', type=str)
+    parser.add_argument('--sha', help='The commit SHA', required=False, default='none', type=str)
+    parser.add_argument('--webhook-url', help='The webhook URL', required=False, default='none', type=str)
     args = parser.parse_args()
 
     try:
-        if args.sha:
+        if args.sha.lower() == 'none':
             url = DEFAULT_URL.format(OWNER=os.environ['REPOSITORY_OWNER'], REPO=os.environ['REPOSITORY_NAME'], COMMIT_SHA=args.sha)
             post_comment(url, args.github_token, args.file)
     except:
         pass
 
     try:
-        if args.webhook_url:
+        if args.webhook_url.lower() == 'none':
             post_webhook(args.webhook_url, args.file)
     except:
         pass
