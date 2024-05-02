@@ -30,7 +30,7 @@
               robot --nostatusrc -d results ./reporter/Tests/
     
           - name: Test Action
-            uses: reporter
+            uses: joseajunior/gh_action_composite/reporter@v1
             with:
               report_path: results
               only_summary: false
