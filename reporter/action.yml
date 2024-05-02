@@ -50,6 +50,13 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    GITHUB_TOKEN: ${{ inputs.gh_access_token }}
+    REPORT_PATH: ${{ inputs.report_path }}
+    PR_NUMBER: ${{ inputs.pr_number }}
+    ONLY_SUMMARY: ${{ inputs.only_summary }}
+    INCLUDE_PASSED: ${{ inputs.include_passed }}
+    REPOSITORY: ${{ inputs.repository }}
   args:
     - ${{ inputs.report_path }}
     - ${{ inputs.gh_access_token }}
@@ -57,4 +64,3 @@ runs:
     - ${{ inputs.only_summary }}
     - ${{ inputs.include_passed }}
     - ${{ inputs.repository }}
-  

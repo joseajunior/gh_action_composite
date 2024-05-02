@@ -12,25 +12,18 @@ def main():
     parser.add_argument('-f', '--file', help='The Markdown file', required=False,
                         default='report.md', type=Path)
     parser.add_argument('--pr', help='The commit SHA', required=False,
-                        default=os.environ['PR_NUMBER'], type=str)
+                        default=os.environ.get('PR_NUMBER', 'none'), type=str)
     parser.add_argument('-o', '--owner', help='Repository Owner', required=False,
-                        default=os.environ['REPOSITORY_OWNER'], type=str)
+                        default=os.environ.get('REPOSITORY_OWNER', 'none'), type=str)
     parser.add_argument('-rp', '--repository', help='Repository Name', required=False,
-                        default=os.environ['REPOSITORY_NAME'], type=str)
+                        default=os.environ.get('REPOSITORY_NAME', 'none'), type=str)
     args = parser.parse_args()
 
     if args.pr.lower() != 'none' and args.github_token.lower() != 'none':
         url = DEFAULT_URL.format(OWNER=os.environ.get('REPOSITORY_OWNER', parser.owner),
-                                 REPO=os.environ('REPOSITORY_NAME', parser.repository),
+                                 REPO=os.environ.get('REPOSITORY_NAME', parser.repository),
                                  PR_NUMBER=args.pr)
         post_comment(url, args.github_token, args.file)
-
-def callable_main(github_token: str, file: Path, pr: str, owner: str = None, repo: str = None):
-    if pr.lower() != 'none' and github_token.lower() != 'none':
-        url = DEFAULT_URL.format(OWNER=os.environ.get('REPOSITORY_OWNER', owner),
-                                 REPO=os.environ.get('REPOSITORY_NAME', repo),
-                                 PR_NUMBER=pr)
-        post_comment(url, github_token, file)
 
 def post_comment(url: str, token: str, file_path: Path):
     # skipcq: PTC-W6004
