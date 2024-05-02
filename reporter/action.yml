@@ -33,6 +33,12 @@ inputs:
       Default is false.
     required: false
     default: false
+  repository:
+    description: |
+      Repository name.
+      This is only needed if you want to post the report to the pull request that triggered the tests.
+    required: false
+    default: "none"
   # TODO: Adding support to post to Google Chat Space
   # webhook_url:
   #   description: |
@@ -50,5 +56,5 @@ runs:
     - ${{ inputs.pr_number }}
     - ${{ inputs.only_summary }}
     - ${{ inputs.include_passed }}
-    - ${{ github.repository }}
+    - ${{ inputs.repository }}
   

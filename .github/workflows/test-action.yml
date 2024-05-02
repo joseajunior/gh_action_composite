@@ -30,9 +30,10 @@
               robot --nostatusrc -d results ./reporter/Tests/
     
           - name: Test Action
-            uses: joseajunior/gh_action_composite/reporter@docker-action
+            uses: ./reporter
             with:
               report_path: results
               only_summary: false
               gh_access_token: ${{ secrets.GITHUB_TOKEN }}
               pr_number: ${{ github.event.pull_request.number || 'none'}}
+              repository: ${{ github.repository }}
