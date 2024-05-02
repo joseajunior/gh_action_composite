@@ -2,7 +2,7 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 # # Updating Environement
-# RUN apt-get update
+RUN apt-get update
 RUN apt-get install wget unzip curl apt-transport-https ca-certificates software-properties-common -y
 
 # #Setup Python 3.11
