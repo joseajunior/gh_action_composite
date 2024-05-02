@@ -20,8 +20,8 @@ def main():
     args = parser.parse_args()
 
     if args.pull_request.lower() != 'none' and args.github_token.lower() != 'none':
-        url = DEFAULT_URL.format(OWNER=os.environ.get('REPOSITORY_OWNER', parser.owner),
-                                 REPO=os.environ.get('REPOSITORY_NAME', parser.repository),
+        url = DEFAULT_URL.format(OWNER=os.environ.get('REPOSITORY_OWNER', args.owner),
+                                 REPO=os.environ.get('REPOSITORY_NAME', args.repository),
                                  PR_NUMBER=args.pull_request)
         post_comment(url, args.github_token, args.file)
 
