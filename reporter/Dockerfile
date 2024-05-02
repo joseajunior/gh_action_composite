@@ -1,4 +1,10 @@
 FROM ubuntu:latest
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Updating Environement
+RUN apt-get update
+RUN apt-get install xvfb wget unzip curl apt-transport-https ca-certificates software-properties-common -y
+RUN Xvfb&
 
 #Setup Python 3.11
 RUN add-apt-repository ppa:deadsnakes/ppa
