@@ -1,4 +1,4 @@
-FROM ubuntu-latest
+FROM ubuntu:latest
 
 #Setup Python 3.11
 RUN add-apt-repository ppa:deadsnakes/ppa
