@@ -22,6 +22,7 @@ RUN pip install robotframework requests
 COPY ./post.py /post.py
 COPY ./report.py /report.py
 COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 #Run the test
 ENTRYPOINT [ "/entrypoint.sh" ]
