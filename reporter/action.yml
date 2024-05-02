@@ -1,0 +1,66 @@
+---
+name: 'Robot Reporter'
+description: 'Parses robot framework test reports and outputs the results in commit that triggered the tests'
+author: 'joseajunior'
+inputs:
+  report_path:
+    description: |
+      Path to the report files.
+      The default value is "reports"
+    required: false
+    default: "reports"
+  gh_access_token:
+    description: |
+      Token to access the GitHub API.
+      This is only needed if you want to post the report to the pull request that triggered the tests.
+    required: false
+    default: "none"
+  pr_number:
+    description: |
+      Pull Request number.
+      This is only needed if you want to post the report to the pull request that triggered the tests.
+    required: false
+    default: "none"
+  only_summary:
+    description: |
+      Only output report to GitHub Actions Summary.
+      Default is false.
+    required: false
+    default: false
+  include_passed:
+    description: |
+      Include passed tests in the report.
+      Default is false.
+    required: false
+    default: false
+  repository:
+    description: |
+      Repository name.
+      This is only needed if you want to post the report to the pull request that triggered the tests.
+    required: false
+    default: "none"
+  # TODO: Adding support to post to Google Chat Space
+  # webhook_url:
+  #   description: |
+  #     Google Chat webhook URL.
+  #     This is only needed if you want to post the report to a Google Chat room.
+  #   required: false
+  #   default: "none"
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    GITHUB_TOKEN: ${{ inputs.gh_access_token }}
+    REPORT_PATH: ${{ inputs.report_path }}
+    PR_NUMBER: ${{ inputs.pr_number }}
+    ONLY_SUMMARY: ${{ inputs.only_summary }}
+    INCLUDE_PASSED: ${{ inputs.include_passed }}
+    REPOSITORY: ${{ inputs.repository }}
+  args:
+    - ${{ inputs.report_path }}
+    - ${{ inputs.gh_access_token }}
+    - ${{ inputs.pr_number }}
+    - ${{ inputs.only_summary }}
+    - ${{ inputs.include_passed }}
+    - ${{ inputs.repository }}
