@@ -12,6 +12,7 @@ RUN apt-get install python3.12 python3.12-dev -y
 RUN apt-get install python3-pip -y
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+RUN rm -f /usr/bin/python3.12/EXTERNALLY-MANAGED
 RUN pip install --upgrade pip
 
 #Install Robot Framework and Requests
