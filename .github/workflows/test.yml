@@ -1,0 +1,32 @@
+---
+name: Test Robot Framework Reporter
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  simple-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Robot Framework
+        run: |
+          pip install robotframework
+          robot -d results tests
+
+      - name: Upload Reports
+        uses: page-uploader/action@v1
+        with:
+          pages_branch: gh-pages
+          report_path: results
+          environment: 'test'
+          gh_pages_url: 'https://joseajunior.github.io/robotframework-reporter'
