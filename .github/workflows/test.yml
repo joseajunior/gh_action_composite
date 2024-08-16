@@ -1,0 +1,63 @@
+---
+name: Test Robot Framework Reporter
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  simple-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Robot Framework
+        run: |
+          pip install robotframework
+          robot -d reports tests
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: reports
+          path: |
+            reports/log.html
+            reports/output.xml
+            reports/report.html
+            reports/*.png
+
+  report-job:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs: simple-job
+    steps:
+      - name: Checkout To GitHub Pages Branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download reports
+        env:
+          FOLDER_PATH: ${{ inputs.folder_name || 'Test' }}
+        uses: actions/download-artifact@v4.1.2
+        with:
+          name: reports
+          path: report/test/${{ github.run_number }}
+  
+      - name: Upload Reports
+        env:
+          FOLDER_PATH: ${{ inputs.folder_name || 'Test' }}
+        uses: page-uploader/action@v1
+        with:
+          pages_branch: gh-pages
+          report_path: report/test/${{ github.run_number }}
+          environment: test
+          gh_pages_url: https://joseajunior.github.io/gh_action_composite/
