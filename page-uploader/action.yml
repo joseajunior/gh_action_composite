@@ -1,6 +1,6 @@
 ---
-name: 'Robot Reporter'
-description: 'Parses robot framework test reports and outputs the results in commit that triggered the tests'
+name: 'Page Uploader'
+description: 'Uploads the Robot Framework test reports to GitHub Pages'
 author: 'joseajunior'
 inputs:
   pages_branch:
