@@ -2,9 +2,7 @@
 name: Test Robot Framework Reporter
 
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   simple-job:
