@@ -36,7 +36,7 @@ runs:
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
         git add ${{ inputs.report_path }}/*.html
-        git add ${{ inputs.report_path }}/*.png
+        git add ${{ inputs.report_path }}/*.png && exit 0
         git commit -m "Add Robot Test Reports #${{ inputs.run_number }} On ${{ inputs.environment }} Environment"
         git push origin ${{ inputs.pages_branch }}
 
