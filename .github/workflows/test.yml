@@ -50,11 +50,6 @@ jobs:
           name: reports
           path: report/test/${{ github.run_number }}
 
-      - name: Install Dependecies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq curl
-
       - name: Upload Reports
         env:
           FOLDER_PATH: ${{ inputs.folder_name || 'Test' }}
