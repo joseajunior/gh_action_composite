@@ -58,4 +58,3 @@ jobs:
           pages_branch: gh-pages
           report_path: report/test/${{ github.run_number }}
           environment: test
-          gh_pages_url: https://joseajunior.github.io/gh_action_composite/

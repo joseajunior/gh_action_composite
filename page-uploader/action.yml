@@ -23,14 +23,34 @@ inputs:
       Default is the current run number.
     required: false
     default: "${{ github.run_number }}"
-  gh_pages_url:
+  gh_token:
     description: |
-      URL of the GitHub Pages.
-    required: true
+      GitHub token to access the API.
+    required: false
+    default: "${{ secrets.GITHUB_TOKEN }}"
+  gh_repository:
+    description: |
+      GitHub repository where the pages will be uploaded.
+      Default is the current repository.
+    required: false
+    default: "${{ github.repository }}"
 
 runs:
   using: 'composite'
   steps:
+    - shell: bash
+      run: |
+        apt-get update
+        apt-get install curl jq -y
+
+    - shell: bash
+      run: |
+        GH_URL=`curl -L \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer ${{ inputs.gh_token }}" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/${{ inputs.gh_repository }}/pages | jq -r '.html_url' `
+
     - shell: bash
       run: |
         git config user.name 'github-actions[bot]'
@@ -42,6 +62,6 @@ runs:
 
     - shell: bash
       run: |
-        echo "### [Report link](${{ inputs.gh_pages_url }}/${{ inputs.report_path }}/report.html)" >> $GITHUB_STEP_SUMMARY
+        echo "### [Report link]($GH_URL/${{ inputs.report_path }}/report.html)" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### [Logs link](${{ inputs.gh_pages_url }}/${{ inputs.report_path }}/log.html)" >> $GITHUB_STEP_SUMMARY
+        echo "### [Logs link]($GH_URL/${{ inputs.report_path }}/log.html)" >> $GITHUB_STEP_SUMMARY
