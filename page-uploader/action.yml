@@ -26,8 +26,7 @@ inputs:
   gh_token:
     description: |
       GitHub token to access the API.
-    required: false
-    default: "${{ secrets.GITHUB_TOKEN }}"
+    required: true
   gh_repository:
     description: |
       GitHub repository where the pages will be uploaded.

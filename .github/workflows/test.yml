@@ -58,3 +58,4 @@ jobs:
           pages_branch: gh-pages
           report_path: report/test/${{ github.run_number }}
           environment: test
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
