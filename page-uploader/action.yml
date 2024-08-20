@@ -39,11 +39,6 @@ runs:
   steps:
     - shell: bash
       run: |
-        apt-get update
-        apt-get install curl jq -y
-
-    - shell: bash
-      run: |
         GH_URL=`curl -L \
         -H "Accept: application/vnd.github+json" \
         -H "Authorization: Bearer ${{ inputs.gh_token }}" \
