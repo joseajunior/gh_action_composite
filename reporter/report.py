@@ -46,7 +46,7 @@ class MyResultsVisitor(ResultVisitor):
             json.dump(json_data, j)
         if os.environ['GITHUB_ACTIONS']:
             os.system(f'echo "has-fails={str(self.has_failed).lower()}"')
-            os.system(f'echo "has-fails={str(self.has_failed).lower()}" >> GITHUB_OUTPUTS')
+            os.system(f'echo "has-fails={str(self.has_failed).lower()}" >> "$GITHUB_OUTPUT"')
             
 
     def _format_stats_table(self, statistics: Statistics):

@@ -89,6 +89,6 @@ runs:
     - shell: bash
       if: ${{ inputs.webhook_url != 'false' }}
       env:
-        HAS_FAILS: ${{ steps.generate-report.outputs.has_fails }}
+        HAS_FAILS: ${{ steps.generate-report.outputs.has-fails }}
       run: |
         python ${{ github.action_path }}/google_chat.py -s statistics.json -t "${{ inputs.report_title }}" -l "${{ inputs.report_link }}" -of "${{ inputs.only_on_failure }}" "${{ inputs.webhook_url }}"
