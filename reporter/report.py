@@ -46,7 +46,7 @@ class MyResultsVisitor(ResultVisitor):
             json.dump(json_data, j)
         os.system(f'echo "HAS_FAILS={str(self.has_failed).lower()}"')
         os.system(f'echo "HAS_FAILS={str(self.has_failed).lower()}" >> GITHUB_ENV')
-        if os.environ('GITHUB_ACTIONS'):
+        if os.environ['GITHUB_ACTIONS']:
             os.system('echo "::set-output name=has_fails::true"')
             os.system('echo "inside github actions"')
 
