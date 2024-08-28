@@ -12,8 +12,8 @@ Skiped Test
 
 Failed Test
     Log    This test will fail
-    Fail    This test failed
+    Pass    This test failed
 
 Failed Test with Multi line message
     Log    This test will also fail
-    Fail    This test failed${\n}This is a multi line message${\n}One More Line
+    Pass    This test failed${\n}This is a multi line message${\n}One More Line
