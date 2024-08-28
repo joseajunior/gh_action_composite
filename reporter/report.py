@@ -45,7 +45,7 @@ class MyResultsVisitor(ResultVisitor):
             }
             json.dump(json_data, j)
         if os.environ.get('GITHUB_ACTIONS'):
-            os.system(f'echo "HAS_FAILS={str(self.has_failed).lower()}" >> "$GITHUB_ENV"')
+            os.system(f'echo "HAS_FAILS={str(self.has_failed).lower()}" >> GITHUB_ENV')
 
     def _format_stats_table(self, statistics: Statistics):
         stats_table = ["## Test Suite Statistics", "|:white_check_mark: Passed|:x: Failed|:arrow_right_hook: Skipped|:dart: Total|Pass %|:clock12: Duration|", "|:---:|:---:|:---:|:---:|:---:|:---:|"]

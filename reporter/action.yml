@@ -72,8 +72,8 @@ runs:
     - shell: bash
       run: |
         python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }} -p ${{ inputs.include_passed }}
-        echo "${HAS_FAILED}"
-        echo "${GITHUB_ENV}"
+        echo "$HAS_FAILED"
+        echo "$GITHUB_ENV"
 
     - shell: bash
       run: |
