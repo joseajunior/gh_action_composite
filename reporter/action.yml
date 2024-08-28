@@ -72,8 +72,9 @@ runs:
     - shell: bash
       run: |
         python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }} -p ${{ inputs.include_passed }}
-        echo "$HAS_FAILED"
-        echo "$GITHUB_ENV"
+        echo "${HAS_FAILS}"
+        echo "$HAS_FAILS"
+        echo "${{ env.HAS_FAILS }}"
 
     - shell: bash
       run: |
@@ -84,6 +85,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.gh_access_token || 'none' }}
         PR_NUMBER: ${{ inputs.pr_number || 'none' }}
+        HAS_FAILS: ${{ env.HAS_FAILS }}
       run: |
         python ${{ github.action_path }}/post.py
 

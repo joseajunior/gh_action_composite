@@ -13,7 +13,7 @@ PERCENTAGE_ICON_LINK = {
 MESSAGE_HEADERS = {'Content-Type': 'application/json; charset=UTF-8'}
 
 def main(webhook: str, stats_path: str, title: str, link: str, on_fails: str) -> None:
-    if on_fails.lower() == 'true' and os.getenv('HAS_FAILED', 'false') == 'false':
+    if on_fails.lower() == 'true' and os.getenv('HAS_FAILS', 'false') == 'false':
         return
 
     with open(stats_path, 'r') as f:
