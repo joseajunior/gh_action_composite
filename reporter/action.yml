@@ -85,11 +85,12 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.gh_access_token || 'none' }}
         PR_NUMBER: ${{ inputs.pr_number || 'none' }}
-        HAS_FAILS: ${{ env.HAS_FAILS }}
       run: |
         python ${{ github.action_path }}/post.py
 
     - shell: bash
       if: ${{ inputs.webhook_url != 'false' }}
+      env:
+        HAS_FAILS: ${{ env.HAS_FAILS }}
       run: |
         python ${{ github.action_path }}/google_chat.py -s statistics.json -t "${{ inputs.report_title }}" -l "${{ inputs.report_link }}" -of "${{ inputs.only_on_failure }}" "${{ inputs.webhook_url }}"
