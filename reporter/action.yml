@@ -70,11 +70,9 @@ runs:
         pip install robotframework requests
 
     - shell: bash
+      id: generate-report
       run: |
         python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }} -p ${{ inputs.include_passed }}
-        echo "${HAS_FAILS}"
-        echo "$HAS_FAILS"
-        echo "${{ env.HAS_FAILS }}"
 
     - shell: bash
       run: |
@@ -91,6 +89,6 @@ runs:
     - shell: bash
       if: ${{ inputs.webhook_url != 'false' }}
       env:
-        HAS_FAILS: ${{ env.HAS_FAILS }}
+        HAS_FAILS: ${{ steps.generate-report.outputs.has_fails }}
       run: |
         python ${{ github.action_path }}/google_chat.py -s statistics.json -t "${{ inputs.report_title }}" -l "${{ inputs.report_link }}" -of "${{ inputs.only_on_failure }}" "${{ inputs.webhook_url }}"
