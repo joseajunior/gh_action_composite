@@ -62,7 +62,7 @@ jobs:
           report_path: report/test/${{ github.run_number }}
           include_passed: true
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-          only_on_failure: true
+          only_on_failure: false
 
       # - name: Upload Reports
       #   env:
