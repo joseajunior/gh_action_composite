@@ -1,3 +1,4 @@
+---
 name: 'Robot Reporter'
 description: 'Parses robot framework test reports and outputs the results in commit that triggered the tests'
 author: 'joseajunior'
@@ -11,24 +12,48 @@ inputs:
   gh_access_token:
     description: |
       Token to access the GitHub API.
-      This is only needed if you want to post the report to the commit that triggered the tests.
+      This is only needed if you want to post the report to the pull request that triggered the tests.
     required: false
     default: "none"
-  sha:
+  pr_number:
     description: |
-      SHA of the commit to post the report to.
-      This is only needed if you want to post the report to the commit that triggered the tests.
+      Pull Request number.
+      This is only needed if you want to post the report to the pull request that triggered the tests.
     required: false
-    default: "none"
+    default: "${{ github.event.pull_request.number }}"
+  only_summary:
+    description: |
+      Only output report to GitHub Actions Summary.
+      Default is false.
+    required: false
+    default: false
+  include_passed:
+    description: |
+      Include passed tests in the report.
+      Default is false.
+    required: false
+    default: false
   webhook_url:
     description: |
       Google Chat webhook URL.
       This is only needed if you want to post the report to a Google Chat room.
     required: false
-    default: "none"
-  only_summary:
+    default: false
+  report_title:
     description: |
-      Only output report to GitHub Actions Summary.
+      Report Title for Google Chat report.
+      This is only needed if you want to post the report to a Google Chat room.
+    required: false
+    default: "Robot Framework Report"
+  report_link:
+    description: |
+      Report Link for GitHub Action.
+      This is only needed if you want to post the report to a Google Chat room.
+    required: false
+    default: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+  only_on_failure:
+    description: |
+      Only send the Google Chat report if there are failed tests.
       Default is false.
     required: false
     default: false
@@ -42,23 +67,25 @@ runs:
         export REPO="$(echo "${{ github.repository }}" | awk -F / '{print $2}' | sed -e "s/:refs//")"
         echo "REPOSITORY_OWNER=$OWNER" >> $GITHUB_ENV
         echo "REPOSITORY_NAME=$REPO" >> $GITHUB_ENV
-        pip install -U pip
         pip install robotframework requests
 
     - shell: bash
       run: |
-        python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }}
+        python ${{ github.action_path }}/report.py -r ${{ inputs.report_path }} -p ${{ inputs.include_passed }}
 
     - shell: bash
       run: |
         cat report.md >> $GITHUB_STEP_SUMMARY
-    
+
     - shell: bash
-      if: ${{ !inputs.only_summary && ((inputs.sha && inputs.gh_access_token) || inputs.webhook_url) }}
+      if: ${{ inputs.only_summary == 'false' }}
       env:
         GITHUB_TOKEN: ${{ inputs.gh_access_token || 'none' }}
-        WEBHOOK_URL: ${{ inputs.webhook_url || 'none' }}
-        SHA: ${{ inputs.sha || 'none'}}
-
+        PR_NUMBER: ${{ inputs.pr_number || 'none' }}
       run: |
         python ${{ github.action_path }}/post.py
+
+    - shell: bash
+      if: ${{ inputs.webhook_url != 'false' }}
+      run: |
+        python ${{ github.action_path }}/google_chat.py -s statistics.json -t "${{ inputs.report_title }}" -l "${{ inputs.report_link }}" -of "${{ inputs.only_on_failure }}" "${{ inputs.webhook_url }}"

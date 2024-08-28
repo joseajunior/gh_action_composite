@@ -1,0 +1,139 @@
+{
+    "cardsV2": [
+        {
+            "cardId": "report",
+            "card": {
+                "header": {
+                    "title": "Byte Beard, the UnBearded",
+                    "subtitle": "Captain of the Blind Dutchmen",
+                    "imageType": "SQUARE",
+                    "imageUrl": "https://lh6.googleusercontent.com/proxy/LuXT5faWBJGTYOs6ht5knPYYkE690VGuzcSMextFYLvUSBFHeuQDwPPklio0LnoNWIWrwjpnMrX6SmebKRMjgwcOJhLukzjIyryZzYaVaYfnMAaTWr_0yqnOA5hNwFKY6sxyodeO8OaOhn_Ns0nRtmPOjjYsXEvsb_8Ju3MIO79P0VhAZiexknJUxrs1XOdI9mn6uHyq0w9KDJv5nrJX2lNR2PWqBbRasZvId6SwpucY8kJMhe_3lA"
+                },
+                "sections": [
+                    {
+                        "header": "Report Results",
+                        "collapsible": false,
+                        "widgets": [
+                            {
+                                "columns": {
+                                    "columnItems": [
+                                        {
+                                            "horizontalSizeStyle": "FILL_AVAILABLE_SPACE",
+                                            "verticalAlignment": "CENTER",
+                                            "widgets": [
+                                                {
+                                                    "decoratedText": {
+                                                        "icon": {
+                                                            "iconUrl": "https://www.iconsdb.com/icons/preview/green/checkmark-xxl.png"
+                                                        },
+                                                        "text": "<font color=\"#80e27e\">Tests Passed</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "icon": {
+                                                            "iconUrl": "https://www.iconsdb.com/icons/preview/red/x-mark-xxl.png"
+                                                        },
+                                                        "text": "<font color=\"#ff0000\">Tests Failed</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "icon": {
+                                                            "iconUrl": "https://www.iconsdb.com/icons/preview/color/9E9E9E/media-step-forward-xxl.png"
+                                                        },
+                                                        "text": "<font color=\"#9e9e9e\">Tests Skipped</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "icon": {
+                                                            "iconUrl": "https://www.iconsdb.com/icons/preview/white/info-2-xxl.png"
+                                                        },
+                                                        "text": "Total"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "icon": {
+                                                            "iconUrl": "https://www.iconsdb.com/icons/preview/color/set_color/percentage-2-xxl.png"
+                                                        },
+                                                        "text": "<font color=\"set_color\">Passed %</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "icon": {
+                                                            "iconUrl": "https://www.iconsdb.com/icons/preview/white/time-xxl.png"
+                                                        },
+                                                        "text": "Duration"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "horizontalSizeStyle": "FILL_MINIMUM_SPACE",
+                                            "verticalAlignment": "CENTER",
+                                            "widgets": [
+                                                {
+                                                    "decoratedText": {
+                                                        "text": "<font color=\"#80e27e\">{passed}</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "text": "<font color=\"#ff0000\">{failed}</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "text": "<font color=\"#9e9e9e\">{skipped}</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "text": "{total}"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "text": "<font color=\"set_color\">{percentage}</font>"
+                                                    }
+                                                },
+                                                {
+                                                    "decoratedText": {
+                                                        "text": "{duration}"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "buttonList": {
+                                    "buttons": [
+                                        {
+                                            "text": "Open Report",
+                                            "color": {
+                                                "red": 0,
+                                                "green": 0.5,
+                                                "blue": 1,
+                                                "alpha": 1
+                                            },
+                                            "onClick": {
+                                                "openLink": {
+                                                    "url": ""
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

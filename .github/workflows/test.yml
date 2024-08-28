@@ -43,19 +43,33 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download reports
-        env:
-          FOLDER_PATH: ${{ inputs.folder_name || 'Test' }}
         uses: actions/download-artifact@v4.1.2
         with:
           name: reports
           path: report/test/${{ github.run_number }}
 
-      - name: Upload Reports
-        env:
-          FOLDER_PATH: ${{ inputs.folder_name || 'Test' }}
-        uses: joseajunior/gh_action_composite/page-uploader@main
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          pages_branch: gh-pages
+          python-version: '3.11'
+
+      - name: Create Summary Report
+        continue-on-error: true
+        uses: joseajunior/gh_action_composite/reporter@main
+        with:
+          gh_access_token: ${{ secrets.GITHUB_TOKEN }}
+          only_summary: 'true'
           report_path: report/test/${{ github.run_number }}
-          environment: test
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          include_passed: true
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          only_on_failure: true
+
+      # - name: Upload Reports
+      #   env:
+      #     FOLDER_PATH: ${{ inputs.folder_name || 'Test' }}
+      #   uses: joseajunior/gh_action_composite/page-uploader@main
+      #   with:
+      #     pages_branch: gh-pages
+      #     report_path: report/test/${{ github.run_number }}
+      #     environment: test
+      #     gh_token: ${{ secrets.GITHUB_TOKEN }}
